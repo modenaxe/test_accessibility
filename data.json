@@ -1,6 +1,6 @@
 {
   "name": "test accessibility",
   "dicom_zip": "hip_DICOM.zip", 
-  "volume": "input_cropped.nrrd"
+  "volume": "input_cropped.nrrd",
   "models": ["femur_r.stl"]
 }
