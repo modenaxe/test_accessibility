@@ -1,5 +1,5 @@
 {
-  "name": "test_geom"
+  "name": "test_geom",
   "models": ["bones/pelvis_no_sacrum",
              "bones/sacrum",
              "bones/femur_l.stl",
