@@ -1,7 +1,7 @@
 {
   "name": "test_geom",
-  "models": ["bones/pelvis_no_sacrum",
-             "bones/sacrum",
+  "models": ["bones/pelvis_no_sacrum.stl",
+             "bones/sacrum.stl",
              "bones/femur_l.stl",
              "bones/tibia_no_fib_l.stl",
              "bones/fibula_l.stl"]
