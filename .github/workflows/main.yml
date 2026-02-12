@@ -1,4 +1,4 @@
-name: Deploy OpenCascade WASM
+name: Deploy WASM Libraries
 
 on:
   push:
@@ -22,15 +22,18 @@ jobs:
 
       - name: Prepare and Unzip
         run: |
-          # 1. Create the output folder "public" and the subfolder "occt"
+          # 1. Create the base output folders
           mkdir -p public/occt
+          mkdir -p public/manifold
           
-          # 2. Unzip your specific file into the "occt" folder
-          # -d specifies the destination directory
-          unzip WASM/opencascade.zip -d public/occt
+          # 2. Unzip OpenCascade into 'occt'
+          # -o overwrites without prompting, -q is quiet
+          unzip -o -q WASM/opencascade.zip -d public/occt
           
-          # 3. CRITICAL: Create .nojekyll in the root of the site (public)
-          # This ensures folders starting with underscores (common in WASM) are not ignored
+          # 3. Unzip Manifold into 'manifold'
+          unzip -o -q WASM/manifold-3d.3.3.2.zip -d public/manifold
+          
+          # 4. CRITICAL: Create .nojekyll to allow WASM mime types
           touch public/.nojekyll
 
       - name: Setup Pages
@@ -39,7 +42,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # We only upload the 'public' folder we just created
+          # Upload the entire 'public' folder containing both libraries
           path: 'public'
 
       - name: Deploy to GitHub Pages
