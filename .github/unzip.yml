@@ -1,4 +1,4 @@
-name: Unzip and Deploy WASM
+name: Deploy OpenCascade WASM
 
 on:
   push:
@@ -17,13 +17,21 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Unzip WASM
+      - name: Prepare and Unzip
         run: |
-          unzip main/WASM/opencascade.zip -d public
+          # 1. Create the output folder "public" and the subfolder "occt"
+          mkdir -p public/occt
           
+          # 2. Unzip your specific file into the "occt" folder
+          # -d specifies the destination directory
+          unzip WASM/opencascade.zip -d public/occt
+          
+          # 3. CRITICAL: Create .nojekyll in the root of the site (public)
+          # This ensures folders starting with underscores (common in WASM) are not ignored
+          touch public/.nojekyll
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -31,7 +39,8 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'public' # Must match the directory where you unzipped files
+          # We only upload the 'public' folder we just created
+          path: 'public'
 
       - name: Deploy to GitHub Pages
         id: deployment
